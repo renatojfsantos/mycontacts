@@ -1,3 +1,4 @@
+import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { PageHeader } from '../../components/PageHeader';
 import { Select } from '../../components/Select';
@@ -20,6 +21,13 @@ export function NewContact() {
         <option value="5">Instagram</option>
         <option value="6">LinkedIn</option>
       </Select>
+
+      <Button type="button">
+        Salvar alterações
+      </Button>
+      <Button type="button" disabled>
+        Cadastrar
+      </Button>
     </>
   );
 }
