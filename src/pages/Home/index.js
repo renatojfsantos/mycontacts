@@ -16,7 +16,7 @@ import {
 export function Home() {
   return (
     <Container>
-      <Modal />
+      <Modal danger />
       <InputSearchContainer>
         <input
           type="text"
