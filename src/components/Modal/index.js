@@ -1,15 +1,15 @@
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
 import { Button } from '../Button';
 import { Overlay, Container, Footer } from './styles';
 
 export function Modal({ danger }) {
-  return (
+  return ReactDOM.createPortal(
     <Overlay>
       <Container danger={danger}>
         <h1>Titulo do modal</h1>
         <p>Conteúdo do modal</p>
-
         <Footer>
           <button
             type="button"
@@ -21,9 +21,9 @@ export function Modal({ danger }) {
             Deletar
           </Button>
         </Footer>
-
       </Container>
-    </Overlay>
+    </Overlay>,
+    document.getElementById('modal-root'),
   );
 }
 
