@@ -6,6 +6,8 @@ import { FormGroup } from '../FormGroup';
 import { Input } from '../Input';
 import { Select } from '../Select';
 
+import { isEmailValid } from '../../utils/isEmailValid';
+
 import { Form, ButtonContainer } from './styles';
 
 export function ContactForm({ buttonLabel }) {
@@ -14,6 +16,8 @@ export function ContactForm({ buttonLabel }) {
   const [phone, setPhone] = useState('');
   const [category, setCategory] = useState('');
   const [erros, setErros] = useState([]);
+
+  console.log(erros);
 
   function handleNameChange(event) {
     setName(event.target.value);
@@ -30,7 +34,26 @@ export function ContactForm({ buttonLabel }) {
     }
   }
 
-  console.log(erros);
+  function handleEmailChange(event) {
+    setEmail(event.target.value);
+
+    if (event.target.value && !isEmailValid(event.target.value)) {
+      const errorAlreadyExists = erros.find((error) => error.field === 'email');
+
+      if (errorAlreadyExists) {
+        return;
+      }
+
+      setErros((prevState) => [
+        ...prevState,
+        { field: 'email', message: 'E-mail inválido' },
+      ]);
+    } else {
+      setErros((prevState) => prevState.filter(
+        (error) => error.field !== 'email',
+      ));
+    }
+  }
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -50,7 +73,7 @@ export function ContactForm({ buttonLabel }) {
         <Input
           placeholder="E-mail"
           value={email}
-          onChange={(event) => setEmail(event.target.value)}
+          onChange={handleEmailChange}
         />
       </FormGroup>
 
