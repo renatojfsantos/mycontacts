@@ -9,15 +9,16 @@ import {
   Container,
   InputSearchContainer,
   Header,
-  ListContainer,
+  ListHeader,
   Card,
 } from './styles';
 
 export function Home() {
   const [contacts, setContacts] = useState([]);
+  const [orderBy, setOrderBy] = useState('asc');
 
   useEffect(() => {
-    fetch('http://localhost:3001/contacts')
+    fetch(`http://localhost:3001/contacts?orderBy=${orderBy}`)
       .then(async (response) => {
         const json = await response.json();
         setContacts(json);
@@ -25,7 +26,11 @@ export function Home() {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [orderBy]);
+
+  function handleToggleOrderBy() {
+    setOrderBy((prevState) => (prevState === 'asc' ? 'desc' : 'asc'));
+  }
 
   return (
     <Container>
@@ -35,6 +40,7 @@ export function Home() {
           placeholder="Pesquisar contato..."
         />
       </InputSearchContainer>
+
       <Header>
         <strong>
           {contacts.length}
@@ -43,40 +49,36 @@ export function Home() {
         <Link to="/new">Novo Contato</Link>
       </Header>
 
-      <ListContainer>
-        <header>
-          <button type="button">
-            <span>Nome</span>
-            <img src={Arrow} alt="Arrow" />
-          </button>
-        </header>
+      <ListHeader orderBy={orderBy}>
+        <button type="button" onClick={handleToggleOrderBy}>
+          <span>Nome</span>
+          <img src={Arrow} alt="Arrow" />
+        </button>
+      </ListHeader>
 
-        {
-          contacts.map((contact) => (
-            <Card key={contact.id}>
-              <div className="info">
-                <div className="contact-name">
-                  <strong>{contact.name}</strong>
-                  {contact.category_name && (
-                    <small>{contact.category_name}</small>
-                  )}
-                </div>
-                <span>{contact.email}</span>
-                <span>{contact.phone}</span>
-              </div>
+      {contacts.map((contact) => (
+        <Card key={contact.id}>
+          <div className="info">
+            <div className="contact-name">
+              <strong>{contact.name}</strong>
+              {contact.category_name && (
+                <small>{contact.category_name}</small>
+              )}
+            </div>
+            <span>{contact.email}</span>
+            <span>{contact.phone}</span>
+          </div>
 
-              <div className="actions">
-                <Link to={`/edit/${contact.id}`}>
-                  <img src={Edit} alt="Edit" />
-                </Link>
-                <button type="button">
-                  <img src={Trash} alt="Delete" />
-                </button>
-              </div>
-            </Card>
-          ))
-        }
-      </ListContainer>
+          <div className="actions">
+            <Link to={`/edit/${contact.id}`}>
+              <img src={Edit} alt="Edit" />
+            </Link>
+            <button type="button">
+              <img src={Trash} alt="Delete" />
+            </button>
+          </div>
+        </Card>
+      ))}
     </Container>
   );
 }
