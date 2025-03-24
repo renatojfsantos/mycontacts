@@ -123,7 +123,7 @@ export const Card = styled.div`
 `;
 
 export const ErrorContainer = styled.div`
-  padding-top: 16px;
+  margin-top: 16px;
   display: flex;
   align-items: center;
 

@@ -80,15 +80,6 @@ export function Home() {
         <Link to="/new">Novo Contato</Link>
       </Header>
 
-      {filteredContacts.length > 0 && (
-        <ListHeader orderBy={orderBy}>
-          <button type="button" onClick={handleToggleOrderBy}>
-            <span>Nome</span>
-            <img src={Arrow} alt="Arrow" />
-          </button>
-        </ListHeader>
-      )}
-
       {hasError && (
         <ErrorContainer>
           <img src={Sad} alt="Sad" />
@@ -99,6 +90,15 @@ export function Home() {
             </Button>
           </div>
         </ErrorContainer>
+      )}
+
+      {filteredContacts.length > 0 && (
+        <ListHeader orderBy={orderBy}>
+          <button type="button" onClick={handleToggleOrderBy}>
+            <span>Nome</span>
+            <img src={Arrow} alt="Arrow" />
+          </button>
+        </ListHeader>
       )}
 
       {filteredContacts.map((contact) => (
