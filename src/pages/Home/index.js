@@ -15,6 +15,7 @@ import { Button } from '../../components/Button';
 
 import Sad from '../../assets/images/sad.svg';
 import EmptyBox from '../../assets/images/empty-box.svg';
+import MagnifierQuestion from '../../assets/images/magnifier-question.svg';
 import Arrow from '../../assets/images/icons/arrow.svg';
 import Edit from '../../assets/images/icons/edit.svg';
 import Trash from '../../assets/images/icons/trash.svg';
@@ -27,6 +28,7 @@ import {
   Card,
   ErrorContainer,
   EmptyListContainer,
+  SearchNotFoundContainer,
 } from './styles';
 
 export function Home() {
@@ -128,6 +130,15 @@ export function Home() {
                 cadastrar o seu primeiro!
               </p>
             </EmptyListContainer>
+          )}
+
+          {(contacts.length > 0 && filteredContacts.length < 1) && (
+            <SearchNotFoundContainer>
+              <img src={MagnifierQuestion} alt="Magnifier Question" />
+              <span>
+                Nenhum resultado foi encontrado para <strong>{searchTerm}</strong>.
+              </span>
+            </SearchNotFoundContainer>
           )}
 
           {filteredContacts.length > 0 && (
