@@ -11,7 +11,6 @@ export function NewContact() {
       phone: formData.phone,
       category_id: formData.categoryId,
     };
-    console.log('🚀 ~ handleSubmit ~ contact:', contact);
 
     try {
       const response = await ContactsService.createContact(contact);
