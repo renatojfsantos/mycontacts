@@ -21,5 +21,6 @@ export const Select = styled.select`
   &[disabled] {
     background-color: ${({ theme }) => theme.colors.gray[100]};
     color: ${({ theme }) => theme.colors.gray[200]};
+    opacity: 1;
   }
 `;
