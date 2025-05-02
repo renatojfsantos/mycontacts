@@ -36,6 +36,7 @@ export const StyledButton = styled.button`
     }
 
     &:active {
-      background: ${theme.colors.danger.dark}
+      background: ${theme.colors.danger.dark};
+    }
   `}
 `;
