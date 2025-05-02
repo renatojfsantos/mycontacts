@@ -33,7 +33,7 @@ export function ContactForm({ buttonLabel, onSubmit }) {
   const isFormValid = (name && errors.length === 0);
 
   useEffect(() => {
-    async function loadContegories() {
+    async function loadCategories() {
       try {
         setIsLoadingCategories(true);
         const categoriesList = await CategoriesService.listCategories();
@@ -44,7 +44,7 @@ export function ContactForm({ buttonLabel, onSubmit }) {
       }
     }
 
-    loadContegories();
+    loadCategories();
   }, []);
 
   function handleNameChange(event) {
