@@ -77,13 +77,15 @@ export function ContactForm({ buttonLabel, onSubmit }) {
     setIsSubmitting(true);
 
     await onSubmit({
-      name,
-      email,
-      phone,
-      categoryId,
+      name, email, phone, categoryId,
     });
 
     setIsSubmitting(false);
+
+    setName('');
+    setEmail('');
+    setPhone('');
+    setCategoryId('');
   }
 
   return (
