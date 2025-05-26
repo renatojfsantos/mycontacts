@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 
 import ContactsService from '../../services/ContactsService';
@@ -10,6 +10,7 @@ import { Loader } from '../../components/Loader';
 
 export function EditContact() {
   const [isLoading, setIsLoading] = useState(true);
+  const contactFormRef = useRef(null);
 
   const { id } = useParams();
   const history = useHistory();
@@ -17,9 +18,9 @@ export function EditContact() {
   useEffect(() => {
     async function loadContact() {
       try {
-        const contactData = await ContactsService.getContactById(id);
+        const contact = await ContactsService.getContactById(id);
 
-        console.log({ contactData });
+        contactFormRef.current.setFieldsValues(contact);
         setIsLoading(false);
       } catch {
         history.push('/');
@@ -46,6 +47,7 @@ export function EditContact() {
       />
 
       <ContactForm
+        ref={contactFormRef}
         buttonLabel="Salvar alterações"
         onSubmit={handleSubmit}
       />
