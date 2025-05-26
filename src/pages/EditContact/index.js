@@ -38,14 +38,14 @@ export function EditContact() {
   }, [id, history]);
 
   async function handleSubmit(formData) {
-    const contact = {
-      name: formData.name,
-      email: formData.email,
-      phone: formData.phone,
-      category_id: formData.categoryId,
-    };
-
     try {
+      const contact = {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        category_id: formData.categoryId,
+      };
+
       const contactData = await ContactsService.updateContact(id, contact);
 
       setContactName(contactData.name);
