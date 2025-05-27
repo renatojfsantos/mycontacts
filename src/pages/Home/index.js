@@ -12,6 +12,7 @@ import ContactsService from '../../services/ContactsService';
 
 import { Loader } from '../../components/Loader';
 import { Button } from '../../components/Button';
+import { Modal } from '../../components/Modal';
 
 import Sad from '../../assets/images/sad.svg';
 import EmptyBox from '../../assets/images/empty-box.svg';
@@ -76,6 +77,19 @@ export function Home() {
   return (
     <Container>
       <Loader isLoading={isLoading} />
+
+      <Modal
+        danger
+        title='Tem certeza que deseja remover o contato "Joãozinho"?'
+        confirmLabel="Deletar"
+        onCancel={() => {}}
+        onConfirm={() => {}}
+      >
+        <h1>Modal de exemplo</h1>
+        <h2>Alguma coisa</h2>
+        <strong>outra coisa</strong>
+        <p>mais alguma coisa</p>
+      </Modal>
 
       {contacts.length > 0 && (
         <InputSearchContainer>
