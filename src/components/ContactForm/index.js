@@ -1,7 +1,10 @@
-import { useEffect, useState } from 'react';
+import {
+  forwardRef, useEffect, useImperativeHandle, useState,
+} from 'react';
 import PropTypes from 'prop-types';
 
 import CategoriesService from '../../services/CategoriesService';
+import { useSafeAsyncState } from '../../hooks/useSafeAsyncState';
 
 import { Button } from '../Button';
 import { FormGroup } from '../FormGroup';
@@ -14,13 +17,13 @@ import { formatPhone } from '../../utils/formatPhone';
 
 import { Form, ButtonContainer } from './styles';
 
-export function ContactForm({ buttonLabel, onSubmit }) {
+const ContactForm = forwardRef(({ buttonLabel, onSubmit }, ref) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [categoryId, setCategoryId] = useState('');
-  const [categories, setCategories] = useState([]);
-  const [isLoadingCategories, setIsLoadingCategories] = useState(true);
+  const [categories, setCategories] = useSafeAsyncState([]);
+  const [isLoadingCategories, setIsLoadingCategories] = useSafeAsyncState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
@@ -31,6 +34,22 @@ export function ContactForm({ buttonLabel, onSubmit }) {
   } = useErrors();
 
   const isFormValid = (name && errors.length === 0);
+
+  useImperativeHandle(ref, () => ({
+    setFieldsValues: (contact) => {
+      setName(contact.name ?? '');
+      setEmail(contact.email ?? '');
+      setPhone(formatPhone(contact.phone ?? ''));
+      setCategoryId(contact.category_id ?? '');
+    },
+
+    resetFields: () => {
+      setName('');
+      setEmail('');
+      setPhone('');
+      setCategoryId('');
+    },
+  }), []);
 
   useEffect(() => {
     async function loadCategories() {
@@ -45,7 +64,7 @@ export function ContactForm({ buttonLabel, onSubmit }) {
     }
 
     loadCategories();
-  }, []);
+  }, [setCategories, setIsLoadingCategories]);
 
   function handleNameChange(event) {
     setName(event.target.value);
@@ -77,10 +96,7 @@ export function ContactForm({ buttonLabel, onSubmit }) {
     setIsSubmitting(true);
 
     await onSubmit({
-      name,
-      email,
-      phone,
-      categoryId,
+      name, email, phone, categoryId,
     });
 
     setIsSubmitting(false);
@@ -147,9 +163,11 @@ export function ContactForm({ buttonLabel, onSubmit }) {
       </ButtonContainer>
     </Form>
   );
-}
+});
 
 ContactForm.propTypes = {
   buttonLabel: PropTypes.string.isRequired,
   onSubmit: PropTypes.func.isRequired,
 };
+
+export { ContactForm };
